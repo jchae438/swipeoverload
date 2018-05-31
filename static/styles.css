@@ -1,0 +1,21 @@
+.background{
+	background: url("background.jpg");
+	background-size: 100%;
+	background-repeat: no-repeat;
+	color: white;
+	opacity: 0.9;
+	height: 100vh;
+}
+
+.font-family-default{
+	font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
+}
+
+nav.navbar{
+	padding-left: 40px;
+	padding-right: 30px;
+}
+
+p.padding {
+	padding-right: 20px;
+}
