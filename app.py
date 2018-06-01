@@ -10,10 +10,12 @@ entries = db['entries']
 
 @app.route("/")
 def main():
-	return render_template('index.html')
+	return render_template('index.html', entries=entries.find(), num_entries=entries.count())
 
 @app.route('/add_entry', methods=['POST'])
 def add_entry():
+	name = request.form.get("name")
+	phone_number = request.form.get("phone_number")
 	num_swipes = request.form.get("num_swipes")
 	location = request.form.get("location")
 	start_time = request.form.get("start_time")
@@ -21,16 +23,17 @@ def add_entry():
 	
 	entries.insert_one(
 	{
-	"num_swipes":name,
+	"name":name,
+	"phone_number":phone_number,
+	"num_swipes":num_swipes,
 	"location":location,
 	"start_time":start_time,
 	"etime":end_time
 	})
+
 
 	return redirect('/')
 
 
 if __name__ == "__main__":
 	app.run()
-
-print("poop")

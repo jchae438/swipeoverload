@@ -35,25 +35,36 @@
 	            </div>
 	            <form action="{{ url_for('add_entry') }}" method="post">
 		            <div class="modal-body mx-3">
+
+		            	<div class="md-form mb-4">
+		                    <i class="fa fa-envelope prefix grey-text"></i>
+		                    <label class="font-family-default">Name</label>
+		                    <input type="text" name="name" class="form-control validate" placeholder="e.g. Bob Smith" required>
+		                </div>
+		                <div class="md-form mb-4">
+		                    <i class="fa fa-envelope prefix grey-text"></i>
+		                    <label class="font-family-default">Phone Number</label>
+		                    <input type="tel" name="phone_number" class="form-control validate" placeholder="e.g. 2015551234" required>
+		                </div>
 		                <div class="md-form mb-4">
 		                    <i class="fa fa-envelope prefix grey-text"></i>
 		                    <label class="font-family-default">Number of Swipes to Give Away</label>
-		                    <input type="number" name="num_swipes" class="form-control validate" placeholder="e.g. 20">
+		                    <input type="number" name="num_swipes" class="form-control validate" placeholder="e.g. 20" required>
 		                </div>
 		                <div class="md-form mb-4">
 		                    <i class="fa fa-lock prefix grey-text"></i>
 		                    <label class="font-family-default">Location</label>
-		                    <input type="text" name="location" class="form-control validate" placeholder="e.g. Student Center">
+		                    <input type="text" name="location" class="form-control validate" placeholder="e.g. Student Center" required>
 		                </div>
 		                <div class="md-form mb-4">
 		                    <i class="fa fa-lock prefix grey-text"></i>
 		                    <label class="font-family-default">Starting Giving Away At:</label>
-		                    <input type="time" name="start_time" class="form-control validate" placeholder="e.g. 12:00PM">
+		                    <input type="time" name="start_time" class="form-control validate" placeholder="e.g. 12:00PM" required>
 		                </div>
 		                <div class="md-form mb-4">
 		                    <i class="fa fa-lock prefix grey-text"></i>
 		                    <label class="font-family-default">Stop Giving Away At:</label>
-		                    <input type="time" name="end_time" class="form-control validate" placeholder="e.g. 1:00PM">
+		                    <input type="time" name="end_time" class="form-control validate" placeholder="e.g. 1:00PM" required>
 		                </div>
 		            </div>
 		            <div class="modal-footer d-flex">
@@ -64,6 +75,35 @@
 	        </div>
 	    </div>
 	</div>
+
+	<!-- List of Giveaway Entries -->
+	{% if num_entries == 0 %}
+		<br><br>
+		<h2 class="display-5 mt-5 text-center">Currently no giveaways. Check again Later!</h2>
+	{% else %}
+		<table class="table">
+			<thead>
+				<tr>
+					<th scope="col">Name</th>
+					<th scope="col">Phone #</th>
+					<th scope="col"># Swipes to Give Away</th>
+					<th scope="col">Location</th>
+					<th scope="col">Start Time</th>
+					<th scope="col">End Time</th>
+				</tr>
+			</thead>
+			<tbody>
+			{% for entry in entries %}
+				<td>{{person.name}}</td>
+				<td>{{person.phone_number}}</td>
+				<td>{{person.num_swipes}}</td>
+				<td>{{person.location}}</td>
+				<td>{{person.start_time}}</td>
+				<td>{{person.end_time}}</td>
+			{% endfor %}
+			</tbody>
+		</table>
+	{% endif %}
 
 </body>
 </html>
