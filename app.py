@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect 
 import jinja2
 import os
 from pymongo import MongoClient
@@ -8,12 +8,13 @@ client = MongoClient(os.environ.get('MONGODB_ADDR'))
 db = client['swipe-overload']
 entries = db['entries']
 
-@app.route("/")
+@app.route("/", methods=['GET','POST'])
 def main():
 	return render_template('index.html', entries=entries.find(), num_entries=entries.count())
 
-@app.route('/add_entry', methods=['POST'])
+@app.route("/add_entry", methods=['GET','POST'])
 def add_entry():
+	print("beepboop")
 	name = request.form.get("name")
 	phone_number = request.form.get("phone_number")
 	num_swipes = request.form.get("num_swipes")
@@ -28,9 +29,8 @@ def add_entry():
 	"num_swipes":num_swipes,
 	"location":location,
 	"start_time":start_time,
-	"etime":end_time
+	"end_time":end_time
 	})
-
 
 	return redirect('/')
 
