@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Sungju Chae</title>
+	<title>Swipe Overload</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="/static/styles.css">
@@ -10,6 +10,7 @@
 	<script src="/static/popper.min.js"></script>
 	<script src="/static/bootstrap.min.js"></script>
 	<script src="/static/scrollnav.js"></script>
+	<script type='text/javascript' src="/static/custom.js"></script>
 </head>
 
 <body class="font-family-default">
@@ -18,13 +19,13 @@
 		<div class="pr-5" style="float:right;">
 
 			<!-- Button to Trigger Modal with Add-Entry Form -->
-			<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#addEntryForm">Add Entry</button>
+			<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#addEntryModal">Add Entry</button>
 
 		</div>
 	</h1>
 
 	<!-- Add-Entry Form Modal -->
-	<div class="modal fade" id="addEntryForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal fade" id="addEntryModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	    <div class="modal-dialog" role="document">
 	        <div class="modal-content">
 	            <div class="modal-header text-center">
@@ -33,9 +34,8 @@
 	                    <span aria-hidden="true">&times;</span>
 	                </button>
 	            </div>
-	            <form action="/add_entry" method='post'>
+	            <form id='addEntryForm' action="/add_entry" method='post'>
 		            <div class="modal-body mx-3">
-
 		            	<div class="md-form mb-4">
 		                    <i class="fa fa-envelope prefix grey-text"></i>
 		                    <label class="font-family-default">Name</label>
@@ -48,12 +48,12 @@
 		                </div>
 		                <div class="md-form mb-4">
 		                    <i class="fa fa-envelope prefix grey-text"></i>
-		                    <label class="font-family-default">Number of Swipes to Give Away</label>
-		                    <input type="number" name="num_swipes" class="form-control validate" placeholder="e.g. 20" required>
+		                    <label class="font-family-default">Number of Swipes to Give Away*</label>
+		                    <input type="number" name="num_swipes" min="0" class="form-control validate" placeholder="e.g. 20" required>
 		                </div>
 		                <div class="md-form mb-4">
 		                    <i class="fa fa-lock prefix grey-text"></i>
-		                    <label class="font-family-default">Location</label>
+		                    <label class="font-family-default">Location*</label>
 		                    <input type="text" name="location" class="form-control validate" placeholder="e.g. Student Center" required>
 		                </div>
 		                <div class="md-form mb-4">
@@ -69,11 +69,31 @@
 		            </div>
 		            <div class="modal-footer d-flex">
 		            	<button class="btn btn-secondary" data-dismiss="modal">Close</button>
-		                <input type="submit" class="btn btn-primary" value="Add Entry">
+		                <input type="submit" class="btn btn-primary">
 		            </div>
 	            </form>  
 	        </div>
 	    </div>
+	</div>
+
+	<!-- Error Modal -->
+	<div class="modal fade" id="errorModal" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Invalid Input</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				</div>
+				<div class="modal-body">
+					<p id='errorMessage'></p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">OK</button>
+				</div>
+			</div>
+		</div>
 	</div>
 
 	<!-- List of Giveaway Entries -->
@@ -106,6 +126,46 @@
 			</tbody>
 		</table>
 	{% endif %}
+
+<script type='text/javascript'>
+	$('#addEntryForm').submit(function(e) {
+	e.preventDefault();
+
+	var name = document.forms['addEntryForm'].elements['name'].value;
+	var phone_number = document.forms['addEntryForm'].elements['phone_number'].value;
+	var num_swipes = document.forms['addEntryForm'].elements['num_swipes'].value;
+	var location = document.forms['addEntryForm'].elements['location'].value;
+	var start_time = document.forms['addEntryForm'].elements['start_time'].value;
+	var end_time = document.forms['addEntryForm'].elements['end_time'].value;
+
+	//check if phone number is valid
+	if(!(/^\d+$/.test(phone_number)) || phone_number.length != 10){
+		var errspace = document.getElementById("errorMessage");
+		errspace.innerHTML = "Please enter a valid 10-digit phone number.";
+		$('#errorModal').modal('show');
+		return;
+	}
+
+	//check if dates are valid
+	if(Date.parse('01/01/2000 ' + start_time) >= Date.parse('01/01/2000 '+ end_time)){
+		var errspace = document.getElementById("errorMessage"); 
+		errspace.innerHTML = "Please make sure that the start time is before the end time.";
+		$('#errorModal').modal('show');
+		return;
+	}
+
+    $.ajax({
+        type: "POST",
+        url: "/add_entry",
+        async: false,
+        data: { name: name, phone_number:phone_number, num_swipes:num_swipes, location:location, start_time:start_time, end_time:end_time}
+	});
+
+    $('#addEntryModal').modal('hide');
+
+    document.location.reload(true);
+	});
+</script>
 
 </body>
 </html>
