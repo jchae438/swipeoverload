@@ -59,16 +59,18 @@
 		                <div class="md-form mb-4">
 		                    <i class="fa fa-lock prefix grey-text"></i>
 		                    <label class="font-family-default">Starting Giving Away At:</label>
-		                    <input type="time" name="start_time" class="form-control validate" placeholder="e.g. 12:00PM" required>
+		                    <input type="date" name="start_date" class="form-control validate" required>
+		                    <input type="time" name="start_time" class="form-control validate" required>
 		                </div>
 		                <div class="md-form mb-4">
 		                    <i class="fa fa-lock prefix grey-text"></i>
 		                    <label class="font-family-default">Stop Giving Away At:</label>
-		                    <input type="time" name="end_time" class="form-control validate" placeholder="e.g. 1:00PM" required>
+		                    <input type="date" name="end_date" class="form-control validate" required>
+		                    <input type="time" name="end_time" class="form-control validate" required>
 		                </div>
 		            </div>
 		            <div class="modal-footer d-flex">
-		            	<button class="btn btn-secondary" data-dismiss="modal">Close</button>
+		            	<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 		                <input type="submit" class="btn btn-primary">
 		            </div>
 	            </form>  
@@ -119,8 +121,8 @@
 					<td>{{entry.phone_number}}</td>
 					<td>{{entry.num_swipes}}</td>
 					<td>{{entry.location}}</td>
-					<td>{{entry.start_time}}</td>
-					<td>{{entry.end_time}}</td>
+					<td>{{entry.start_date}} at {{entry.start_time}}</td>
+					<td>{{entry.end_date}} at {{entry.end_time}}</td>
 				</tr>
 			{% endfor %}
 			</tbody>
@@ -135,7 +137,9 @@
 	var phone_number = document.forms['addEntryForm'].elements['phone_number'].value;
 	var num_swipes = document.forms['addEntryForm'].elements['num_swipes'].value;
 	var location = document.forms['addEntryForm'].elements['location'].value;
+	var start_date = document.forms['addEntryForm'].elements['start_date'].value;
 	var start_time = document.forms['addEntryForm'].elements['start_time'].value;
+	var end_date = document.forms['addEntryForm'].elements['end_date'].value;
 	var end_time = document.forms['addEntryForm'].elements['end_time'].value;
 
 	//check if phone number is valid
@@ -146,10 +150,23 @@
 		return;
 	}
 
-	//check if dates are valid
-	if(Date.parse('01/01/2000 ' + start_time) >= Date.parse('01/01/2000 '+ end_time)){
+	//check that start time is after current time
+	offset = -4.0
+    local_time = new Date();
+    utc = local_time.getTime() + (local_time.getTimezoneOffset() * 60000);
+    curr_time = new Date(utc + (3600000*offset));
+
+	if(Date.parse(start_date + " " + start_time) < curr_time){
 		var errspace = document.getElementById("errorMessage"); 
-		errspace.innerHTML = "Please make sure that the start time is before the end time.";
+		errspace.innerHTML = "Please make sure that the start date/time is after the current date/time.";
+		$('#errorModal').modal('show');
+		return;
+	}
+
+	//check if start and end datetimes are not conflicting
+	if(Date.parse(start_date + " " + start_time) >= Date.parse(end_date + " " + end_time)){
+		var errspace = document.getElementById("errorMessage"); 
+		errspace.innerHTML = "Please make sure that the start date/time is before the end date/time.";
 		$('#errorModal').modal('show');
 		return;
 	}
@@ -158,7 +175,7 @@
         type: "POST",
         url: "/add_entry",
         async: false,
-        data: { name: name, phone_number:phone_number, num_swipes:num_swipes, location:location, start_time:start_time, end_time:end_time}
+        data: { name: name, phone_number:phone_number, num_swipes:num_swipes, location:location, start_date:start_date, start_time:start_time, end_date:end_date, end_time:end_time}
 	});
 
     $('#addEntryModal').modal('hide');
