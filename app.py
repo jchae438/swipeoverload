@@ -20,7 +20,6 @@ def main():
 
 @app.route("/add_entry", methods=['GET','POST'])
 def add_entry():
-	print("beepboop")
 	name = request.form.get("name")
 	phone_number = request.form.get("phone_number")
 	num_swipes = request.form.get("num_swipes")
@@ -41,7 +40,6 @@ def add_entry():
 	"end_date":end_date,
 	"end_time":end_time
 	})
-	print("beepboop2")
 	return redirect('/');
 
 
@@ -51,12 +49,32 @@ def delete_expired_entries():
 	for entry in entries.find():
 		end = dateutil.parser.parse(entry["end_date"] + " " + entry["end_time"])
 		end = end.replace(tzinfo=pytz.utc)
-		print("current time: " + str(curr_time))
-		print("end time: " + str(end))
 		if curr_time > end:
-			print("we made it binch")
 			entries.delete_one({'_id':entry['_id']})
 
+@app.context_processor
+def my_utility_processor():
+
+	def us_date_converter(date):
+		year = date[0:4]
+		month = date[5:7]
+		day = date[8:]
+
+		return month + "-" + day + "-" + year
+
+	def ampm_time_converter(time):
+		hour = time[0:2]
+		minute = time[3:]
+
+		hour_int = int(hour)
+
+		if(hour_int <= 12):
+			return time + "AM"
+		else:
+			hour_int = hour_int-12
+			return str(hour_int) + ":" + minute + "PM"
+
+	return dict(us_date_converter=us_date_converter, ampm_time_converter=ampm_time_converter)
 
 if __name__ == "__main__":
 	app.run()

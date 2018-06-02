@@ -107,7 +107,7 @@
 			<thead>
 				<tr>
 					<th scope="col">Name</th>
-					<th scope="col">Phone #</th>
+					<th scope="col">Phone Number</th>
 					<th scope="col"># Swipes to Give Away</th>
 					<th scope="col">Location</th>
 					<th scope="col">Start Time</th>
@@ -118,11 +118,11 @@
 			{% for entry in entries %}
 				<tr>
 					<td>{{entry.name}}</td>
-					<td>{{entry.phone_number}}</td>
+					<td>({{entry.phone_number[0:3]}})-{{entry.phone_number[3:6]}}-{{entry.phone_number[6:]}}</td>
 					<td>{{entry.num_swipes}}</td>
 					<td>{{entry.location}}</td>
-					<td>{{entry.start_date}} at {{entry.start_time}}</td>
-					<td>{{entry.end_date}} at {{entry.end_time}}</td>
+					<td>{{us_date_converter(entry.start_date)}} at {{ampm_time_converter(entry.start_time)}}</td>
+					<td>{{us_date_converter(entry.end_date)}} at {{ampm_time_converter(entry.end_time)}}</td>
 				</tr>
 			{% endfor %}
 			</tbody>
