@@ -5,7 +5,7 @@ import pymongo
 import jinja2
 import os
 import pytz
-import dateutil.parser
+from dateutil import parser
 
 
 app = Flask(__name__)
@@ -47,7 +47,7 @@ def delete_expired_entries():
 	curr_time = datetime.now(pytz.timezone('America/New_York'))
 	curr_time = curr_time.replace(tzinfo=pytz.utc)
 	for entry in entries.find():
-		end = dateutil.parser.parse(entry["end_date"] + " " + entry["end_time"])
+		end = parser.parse(entry["end_date"] + " " + entry["end_time"])
 		end = end.replace(tzinfo=pytz.utc)
 		if curr_time > end:
 			entries.delete_one({'_id':entry['_id']})

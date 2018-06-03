@@ -1,0 +1,20 @@
+.pictured-background{
+	background: url("../images/background3.jpg");
+	background-size: 100%;
+	background-repeat: no-repeat;
+	opacity: 0.9;
+	height: 100vh;
+}
+
+.rounded-text{
+	border-radius: 15px;
+	background-color: hsl(0, 0%, 80%);
+}
+
+.font-family-custom{
+	font-family: "Avant Garde", "Avantgarde", "Century Gothic", "CenturyGothic", "AppleGothic", sans-serif;
+}
+
+.font-family-custom2{
+	font-family: "Rockwell", "Courier Bold", "Courier", "Georgia", "Times", "Times New Roman", serif;
+}

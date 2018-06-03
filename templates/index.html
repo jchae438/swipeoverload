@@ -4,32 +4,30 @@
 	<title>Swipe Overload</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="/static/styles.css">
-	<link rel="stylesheet" href="/static/bootstrap.min.css">
-	<script src="/static/jquery.min.js"></script>
-	<script src="/static/popper.min.js"></script>
-	<script src="/static/bootstrap.min.js"></script>
-	<script src="/static/scrollnav.js"></script>
-	<script type='text/javascript' src="/static/custom.js"></script>
+	<script src="static/js/jquery.min.js"></script>
+	<script src="static/js/popper.min.js"></script>
+	<script src="static/js/bootstrap.min.js"></script>
+	<script src="static/js/scrollnav.js"></script>
+	<script type='text/javascript' src="static/js/custom.js"></script>
+	<link rel="stylesheet" type="text/css" href="static/css/styles.css">
+	<link rel="stylesheet" type="text/css" href="static/css/bootstrap.min.css">
 </head>
-
-<body class="font-family-default">
-
-	<h1 class="display-2 pl-5 pt-3">Swipe Overload
-		<div class="pr-5" style="float:right;">
-
-			<!-- Button to Trigger Modal with Add-Entry Form -->
-			<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#addEntryModal">Add Entry</button>
-
-		</div>
-	</h1>
+<body class="pictured-background">
+	<br>
+	<span class="font-family-custom2 display-2 ml-5 text-white rounded-text" padding-top="25px">Swipe Overload</span>
+	
+	<div class="pr-5 mt-4" style="float:right;">
+		<!-- Button to Trigger Modal with Add-Entry Form -->
+		<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#addEntryModal">Add Entry</button>
+	</div>
+	
 
 	<!-- Add-Entry Form Modal -->
 	<div class="modal fade" id="addEntryModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	    <div class="modal-dialog" role="document">
 	        <div class="modal-content">
 	            <div class="modal-header text-center">
-	                <h4 class="modal-title font-family-default">Announce Giveaway</h3>
+	                <h4 class="modal-title font-family-custom">Announce Giveaway</h3>
 	                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 	                    <span aria-hidden="true">&times;</span>
 	                </button>
@@ -38,33 +36,33 @@
 		            <div class="modal-body mx-3">
 		            	<div class="md-form mb-4">
 		                    <i class="fa fa-envelope prefix grey-text"></i>
-		                    <label class="font-family-default">Name</label>
+		                    <label class="font-family-custom">Name</label>
 		                    <input type="text" name="name" class="form-control validate" placeholder="e.g. Bob Smith" required>
 		                </div>
 		                <div class="md-form mb-4">
 		                    <i class="fa fa-envelope prefix grey-text"></i>
-		                    <label class="font-family-default">Phone Number</label>
+		                    <label class="font-family-custom">Phone Number</label>
 		                    <input type="tel" name="phone_number" class="form-control validate" placeholder="e.g. 2015551234" required>
 		                </div>
 		                <div class="md-form mb-4">
 		                    <i class="fa fa-envelope prefix grey-text"></i>
-		                    <label class="font-family-default">Number of Swipes to Give Away*</label>
+		                    <label class="font-family-custom">Number of Swipes to Give Away*</label>
 		                    <input type="number" name="num_swipes" min="0" class="form-control validate" placeholder="e.g. 20" required>
 		                </div>
 		                <div class="md-form mb-4">
 		                    <i class="fa fa-lock prefix grey-text"></i>
-		                    <label class="font-family-default">Location*</label>
+		                    <label class="font-family-custom">Location*</label>
 		                    <input type="text" name="location" class="form-control validate" placeholder="e.g. Student Center" required>
 		                </div>
 		                <div class="md-form mb-4">
 		                    <i class="fa fa-lock prefix grey-text"></i>
-		                    <label class="font-family-default">Starting Giving Away At:</label>
+		                    <label class="font-family-custom">Starting Giving Away At:</label>
 		                    <input type="date" name="start_date" class="form-control validate" required>
 		                    <input type="time" name="start_time" class="form-control validate" required>
 		                </div>
 		                <div class="md-form mb-4">
 		                    <i class="fa fa-lock prefix grey-text"></i>
-		                    <label class="font-family-default">Stop Giving Away At:</label>
+		                    <label class="font-family-custom">Stop Giving Away At:</label>
 		                    <input type="date" name="end_date" class="form-control validate" required>
 		                    <input type="time" name="end_time" class="form-control validate" required>
 		                </div>
@@ -101,9 +99,9 @@
 	<!-- List of Giveaway Entries -->
 	{% if num_entries == 0 %}
 		<br><br>
-		<h2 class="display-5 mt-5 text-center">Currently no giveaways. Check again Later!</h2>
+		<h2 class="font-family-custom-2 display-5 mt-5 text-center text-white">Currently no giveaways. Check again Later!</h2>
 	{% else %}
-		<table class="table">
+		<table class="table table-hover table-bordered table-striped font-family-custom w-75 ml-5 mt-5">
 			<thead>
 				<tr>
 					<th scope="col">Name</th>
@@ -128,7 +126,7 @@
 			</tbody>
 		</table>
 	{% endif %}
-
+	
 <script type='text/javascript'>
 	$('#addEntryForm').submit(function(e) {
 	e.preventDefault();
