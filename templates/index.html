@@ -13,13 +13,12 @@
 </head>
 <body class="pictured-background">
 	<br>
-	<span class="font-family-custom2 rounded-text display-2 ml-5 text-white" padding-top="25px">Swipe Overload</span>
+	<div class="title-center">
+		<span class="font-family-custom2 rounded-text title-size text-white" padding-top="25px">Swipe Overload</span>
 	
-	<div class="pr-5 mt-4" style="float:right;">
 		<!-- Button to Trigger Modal with Add-Entry Form -->
-		<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#addEntryModal">Add Entry</button>
+		<button type="button" class="btn btn-primary btn-lg button-orient " data-toggle="modal" data-target="#addEntryModal">Add Entry</button>
 	</div>
-	
 
 	<!-- Add-Entry Form Modal -->
 	<div class="modal fade" id="addEntryModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -97,10 +96,10 @@
 
 	<!-- List of Giveaway Entries -->
 	{% if num_entries == 0 %}
-		<br><br>
-		<h2 class="font-family-custom-2 rounded-text display-5 mt-5 text-center text-white">Currently no giveaways. Check again Later!</h2>
+		<h2 class="font-family-custom subtitle-size mt-5 text-white text-center">Currently no giveaways. Check again Later!
+		</h2>
 	{% else %}
-		<table class="table table-hover table-bordered table-striped font-family-custom rounded-text w-75 ml-5 mt-5">
+		<table class="table table-hover table-bordered table-striped table-size font-family-custom rounded-text mt-5">
 			<thead>
 				<tr>
 					<th scope="col">Name</th>
