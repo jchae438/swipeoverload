@@ -1,9 +1,9 @@
 .pictured-background{
 	background: url("../images/background.jpg");
-	background-size: 100%;
+	background-size: 100% 100%;
 	background-repeat: no-repeat;
+	background-attachment: fixed;
 	opacity: 0.9;
-	height: 100vh;
 }
 
 .rounded-text{
